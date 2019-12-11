@@ -1,0 +1,11 @@
+import { Options } from './types';
+declare const ENDPOINTS: Options;
+declare const LANGUAGE_DEFAULT = "default";
+declare const CRYPTOS: Options;
+declare const LANGUAGES: Options;
+declare const UIMODES: Options;
+declare const UITHEMES: Options;
+declare const ENDPOINT_DEFAULT = "ws://127.0.0.1:9944/";
+declare const UITHEME_DEFAULT = "substrate";
+declare const UIMODE_DEFAULT: string;
+export { CRYPTOS, ENDPOINT_DEFAULT, ENDPOINTS, LANGUAGE_DEFAULT, LANGUAGES, UIMODE_DEFAULT, UIMODES, UITHEME_DEFAULT, UITHEMES };

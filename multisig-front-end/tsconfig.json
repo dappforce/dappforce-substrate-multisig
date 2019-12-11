@@ -1,0 +1,65 @@
+{
+  "extends": "./node_modules/@polkadot/dev/config/tsconfig",
+  "exclude": [
+    "patches"
+  ],
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@dappforce/blogs/": [ "packages/df-blogs/src/" ],
+      "@dappforce/blogs/*": [ "packages/df-blogs/src/*" ],
+      "@dappforce/multisig/": [ "packages/df-multisig/src/" ],
+      "@dappforce/multisig/*": [ "packages/df-multisig/src/*" ],
+      "@dappforce/types/*": [ "packages/df-types/src/*" ],
+      "@dappforce/types/": [ "packages/df-types/src/" ],
+      "@polkadot/df-utils/": [ "packages/df-utils/src" ],
+      "@polkadot/df-utils/*": [ "packages/df-utils/src/*" ],
+      "@polkadot/df-settings/": [ "packages/df-settings/src/" ],
+      "@polkadot/df-settings/*": [ "packages/df-settings/src/*" ],
+
+      "@polkadot/app-123code": [ "packages/app-123code/src" ],
+      "@polkadot/app-123code/*": [ "packages/app-123code/src/*" ],
+      "@polkadot/app-accounts": [ "packages/app-accounts/src" ],
+      "@polkadot/app-accounts/*": [ "packages/app-accounts/src/*" ],
+      "@polkadot/app-address-book": [ "packages/app-address-book/src" ],
+      "@polkadot/app-address-book/*": [ "packages/app-address-book/src/*" ],
+      "@polkadot/app-contracts": [ "packages/app-contracts/src" ],
+      "@polkadot/app-contracts/*": [ "packages/app-contracts/src/*" ],
+      "@polkadot/app-democracy": [ "packages/app-democracy/src" ],
+      "@polkadot/app-democracy/*": [ "packages/app-democracy/src/*" ],
+      "@polkadot/app-extrinsics": [ "packages/app-extrinsics/src" ],
+      "@polkadot/app-extrinsics/*": [ "packages/app-extrinsics/src/*" ],
+      "@polkadot/app-explorer": [ "packages/app-explorer/src" ],
+      "@polkadot/app-explorer/*": [ "packages/app-explorer/src/*" ],
+      "@polkadot/app-js": [ "packages/app-js/src" ],
+      "@polkadot/app-js/*": [ "packages/app-js/src/*" ],
+      "@polkadot/app-settings": [ "packages/app-settings/src" ],
+      "@polkadot/app-settings/*": [ "packages/app-settings/src/*" ],
+      "@polkadot/app-staking": [ "packages/app-staking/src" ],
+      "@polkadot/app-staking/*": [ "packages/app-staking/src/*" ],
+      "@polkadot/app-storage": [ "packages/app-storage/src" ],
+      "@polkadot/app-storage/*": [ "packages/app-storage/src/*" ],
+      "@polkadot/app-toolbox": [ "packages/app-toolbox/src" ],
+      "@polkadot/app-toolbox/*": [ "packages/app-toolbox/src/*" ],
+      "@polkadot/app-transfer": [ "packages/app-transfer/src" ],
+      "@polkadot/app-transfer/*": [ "packages/app-transfer/src/*" ],
+      "@polkadot/apps": [ "packages/apps/src" ],
+      "@polkadot/apps/*": [ "packages/apps/src/*" ],
+      "@polkadot/ui-api": [ "packages/ui-api/src" ],
+      "@polkadot/ui-api/*": [ "packages/ui-api/src/*" ],
+      "@polkadot/ui-app": [ "packages/ui-app/src" ],
+      "@polkadot/ui-app/*": [ "packages/ui-app/src/*" ],
+      "@polkadot/ui-params": [ "packages/ui-params/src" ],
+      "@polkadot/ui-params/*": [ "packages/ui-params/src/*" ],
+      "@polkadot/ui-reactive": [ "packages/ui-reactive/src" ],
+      "@polkadot/ui-reactive/*": [ "packages/ui-reactive/src/*" ],
+      "@polkadot/ui-signer": [ "packages/ui-signer/src" ],
+      "@polkadot/ui-signer/*": [ "packages/ui-signer/src/*" ]
+    },
+    "typeRoots": [
+      "./node_modules/@polkadot/ts",
+      "./node_modules/@types"
+    ]
+  }
+}

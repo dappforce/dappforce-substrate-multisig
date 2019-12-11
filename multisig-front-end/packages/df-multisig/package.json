@@ -1,0 +1,14 @@
+{
+  "name": "@dappforce/multisig",
+  "version": "0.1.1",
+  "description": "Multisig module for Substrate blockchain",
+  "main": "index.js",
+  "scripts": {},
+  "author": "https://github.com/dappforce",
+  "maintainers": [],
+  "dependencies": {
+    "@babel/runtime": "^7.4.3",
+    "@polkadot/ui-app": "^0.31.0-beta.18",
+    "@polkadot/df-utils": "^0.1.1"
+  }
+}
