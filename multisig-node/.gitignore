@@ -1,0 +1,3 @@
+# Substrate Node and Runtime
+**/target/
+**/*.rs.bk
