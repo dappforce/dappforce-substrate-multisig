@@ -5,7 +5,7 @@
 # Front-end
 multisig-front-end/**/build/
 multisig-front-end/coverage/
-multisig-front-end/node_modules/
+multisig-front-end/**/node_modules/
 multisig-front-end/tmp/
 multisig-front-end/.DS_Store
 multisig-front-end/.env.local
