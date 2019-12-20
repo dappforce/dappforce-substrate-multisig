@@ -75,7 +75,7 @@ class SideBar extends React.PureComponent<Props> {
             vertical
           >
             <div className='apps-SideBar-Scroll'>
-              {this.renderSubSocialLogo()}
+              {this.renderMultisigLogo()}
               {this.renderRoutes()}
               <Menu.Divider hidden />
               {
@@ -124,9 +124,9 @@ class SideBar extends React.PureComponent<Props> {
     );
   }
 
-  private renderSubSocialLogo () {
+  private renderMultisigLogo () {
     const { isCollapsed } = this.props;
-    return <span className='DfSidebarLogo'>{isCollapsed ? 'S.' : 'SubSocial'}</span>;
+    return <span className='DfSidebarLogo'>{isCollapsed ? 'M.' : 'Multisig'}</span>;
   }
 
   private renderRoutes () {
