@@ -1,0 +1,24 @@
+{
+  "name": "@polkadot/df-utils",
+  "version": "0.1.1",
+  "description": "DappForce and Subsocial utils",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Subsocial contributors",
+  "maintainers": [],
+  "dependencies": {
+    "@babel/runtime": "^7.4.3",
+    "@polkadot/ui-app": "^0.31.0-beta.18",
+    "@types/query-string": "^6.2.0",
+    "@types/uuid": "^3.4.4",
+    "@types/yup": "^0.26.10",
+    "axios": "^0.18.0",
+    "formik": "^1.5.0",
+    "query-string": "^6.2.0",
+    "react-markdown": "^4.0.6",
+    "remark": "^10.0.1",
+    "strip-markdown": "^3.0.3",
+    "uuid": "^3.3.2",
+    "yup": "^0.26.10"
+  }
+}

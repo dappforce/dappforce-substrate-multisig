@@ -1,0 +1,21 @@
+# Substrate Node and Runtime
+**/target/
+**/*.rs.bk
+
+# Front-end
+multisig-front-end/**/build/
+multisig-front-end/coverage/
+multisig-front-end/**/node_modules/
+multisig-front-end/tmp/
+multisig-front-end/.DS_Store
+multisig-front-end/.env.local
+multisig-front-end/.env.development.local
+multisig-front-end/.env.test.local
+multisig-front-end/.env.production.local
+multisig-front-end/.npmrc
+multisig-front-end/package-lock.json
+multisig-front-end/npm-debug.log*
+multisig-front-end/yarn-debug.log*
+multisig-front-end/yarn-error.log*
+multisig-front-end/!patches/**
+multisig-front-end/packages/df-types/lib
