@@ -16,7 +16,6 @@ import { Api } from '@polkadot/ui-api';
 import { QueueConsumer } from '@polkadot/ui-app/Status/Context';
 import Queue from '@polkadot/ui-app/Status/Queue';
 import Apps from './Apps';
-import { registerDfTypes } from '@dappforce/types/';
 import { registerMultiSigTypes } from '@dappforce/multisig/types';
 
 const rootId = 'root';
@@ -30,7 +29,6 @@ if (!rootElement) {
 console.log('Web socket url=', url);
 
 try {
-  registerDfTypes();
   registerMultiSigTypes();
   const types = store.get('types') || {};
   const names = Object.keys(types);

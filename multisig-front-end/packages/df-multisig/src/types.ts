@@ -1,8 +1,37 @@
 import { Struct } from '@polkadot/types/codec';
-import { getTypeRegistry, AccountId, u16, u64, Text, Vector, u8, bool, BalanceOf } from '@polkadot/types';
-import { Change, VecAccountId } from '@dappforce/types/blogs';
+import { getTypeRegistry, AccountId, u16, u64, Text, Vector, u8, bool, BalanceOf, BlockNumber, Moment } from '@polkadot/types';
+import moment from 'moment-timezone';
 
 export class TransactionId extends u64 {}
+export class VecAccountId extends Vector.with(AccountId) {}
+
+export type ChangeType = {
+  account: AccountId,
+  block: BlockNumber,
+  time: Moment
+};
+export class Change extends Struct {
+  constructor (value?: ChangeType) {
+    super({
+      account: AccountId,
+      block: BlockNumber,
+      time: Moment
+    }, value);
+  }
+
+  get account (): AccountId {
+    return this.get('account') as AccountId;
+  }
+
+  get block (): BlockNumber {
+    return this.get('block') as BlockNumber;
+  }
+
+  get time (): string {
+    const time = this.get('time') as Moment;
+    return moment(time).format('lll');
+  }
+}
 
 export type WalletType = {
   created: Change,
@@ -113,6 +142,7 @@ export function registerMultiSigTypes () {
   try {
     const typeRegistry = getTypeRegistry();
     typeRegistry.register({
+      Change,
       TransactionId,
       BalanceOf,
       Wallet,

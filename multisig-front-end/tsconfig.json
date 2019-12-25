@@ -11,8 +11,6 @@
       "@dappforce/blogs/*": [ "packages/df-blogs/src/*" ],
       "@dappforce/multisig/": [ "packages/df-multisig/src/" ],
       "@dappforce/multisig/*": [ "packages/df-multisig/src/*" ],
-      "@dappforce/types/*": [ "packages/df-types/src/*" ],
-      "@dappforce/types/": [ "packages/df-types/src/" ],
       "@polkadot/df-utils/": [ "packages/df-utils/src" ],
       "@polkadot/df-utils/*": [ "packages/df-utils/src/*" ],
       "@polkadot/df-settings/": [ "packages/df-settings/src/" ],
