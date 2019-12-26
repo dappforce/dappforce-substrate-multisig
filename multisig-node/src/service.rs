@@ -5,7 +5,7 @@
 use std::sync::Arc;
 use log::info;
 use transaction_pool::{self, txpool::{Pool as TransactionPool}};
-use multisig_subwallet_runtime::{self, GenesisConfig, opaque::Block, RuntimeApi};
+use df_multisig_runtime::{self, GenesisConfig, opaque::Block, RuntimeApi};
 use substrate_service::{
 	FactoryFullConfiguration, LightComponents, FullComponents, FullBackend,
 	FullClient, LightClient, LightBackend, FullExecutor, LightExecutor,
@@ -24,9 +24,9 @@ pub use substrate_executor::NativeExecutor;
 // Our native executor instance.
 native_executor_instance!(
 	pub Executor,
-	multisig_subwallet_runtime::api::dispatch,
-	multisig_subwallet_runtime::native_version,
-	include_bytes!("../runtime/wasm/target/wasm32-unknown-unknown/release/multisig_subwallet_runtime_wasm.compact.wasm")
+	df_multisig_runtime::api::dispatch,
+	df_multisig_runtime::native_version,
+	include_bytes!("../runtime/wasm/target/wasm32-unknown-unknown/release/df_multisig_runtime_wasm.compact.wasm")
 );
 
 #[derive(Default)]

@@ -1,4 +1,4 @@
-# multisig-subwallet
+# Multisig Wallet Node
 
 A new SRML-based Substrate node, ready for hacking.
 

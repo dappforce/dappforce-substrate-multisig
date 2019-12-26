@@ -14,9 +14,9 @@ fn run() -> cli::error::Result<()> {
 		name: "Substrate Node",
 		commit: env!("VERGEN_SHA_SHORT"),
 		version: env!("CARGO_PKG_VERSION"),
-		executable_name: "multisig-subwallet",
+		executable_name: "multisig",
 		author: "f3joule",
-		description: "multisig-subwallet",
+		description: "Multi-signature wallet implementation",
 		support_url: "support.anonymous.an",
 	};
 	cli::run(::std::env::args(), cli::Exit, version)

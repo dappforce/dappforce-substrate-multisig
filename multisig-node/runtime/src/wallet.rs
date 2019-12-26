@@ -15,7 +15,7 @@ pub const MAX_TRANSACTION_NOTES_LEN: u16 = 256;
 
 pub const MSG_NOT_ENOUGH_OWNERS: &str = "There can not be less owners than allowed";
 pub const MSG_TOO_MANY_OWNERS: &str = "There can not be more owners than allowed";
-pub const MSG_MORE_CONFIRMS_REQUIRED_THAN_OWNERS: &str = "The required confirmation count can not be greater than owners count";
+pub const MSG_CONFIRMS_NUMBER_EXCEEDS_OWNERS: &str = "The required confirmation count can not be greater than owners count";
 pub const MSG_CANNOT_REQUIRE_ZERO_CONFIRMS: &str = "The required confirmation count can not be less than 1";
 pub const MSG_WALLET_NOT_FOUND: &str = "Multi-signature wallet not found by id";
 pub const MSG_NOT_A_WALLET_OWNER: &str = "Account is not a wallet owner";
@@ -117,7 +117,7 @@ decl_module! {
 			ensure!(owners_count >= MIN_WALLET_OWNERS, MSG_NOT_ENOUGH_OWNERS);
 			ensure!(owners_count <= MAX_WALLET_OWNERS, MSG_TOO_MANY_OWNERS);
 
-			ensure!(confirms_required <= owners_count, MSG_MORE_CONFIRMS_REQUIRED_THAN_OWNERS);
+			ensure!(confirms_required <= owners_count, MSG_CONFIRMS_NUMBER_EXCEEDS_OWNERS);
 			ensure!(confirms_required > 0, MSG_CANNOT_REQUIRE_ZERO_CONFIRMS);
 			ensure!(max_tx_value >= BalanceOf::<T>::sa(MIN_WALLET_MAX_TX_VALUE as u64), MSG_MAX_TX_VALUE_LOWER_THAN_ALLOWED);
 
