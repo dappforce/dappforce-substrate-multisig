@@ -14,17 +14,14 @@ import { Icon, Menu } from '@polkadot/ui-app';
 import accountObservable from '@polkadot/ui-keyring/observable/accounts';
 import { withApi, withCalls, withMulti, withObservable } from '@polkadot/ui-api';
 import { isFunction } from '@polkadot/util';
-import { Option } from '@polkadot/types';
 
 import ReactTooltip from 'react-tooltip';
 import { queryToProp } from '@polkadot/df-utils/index';
-import { ElectionStage } from '@dappforce/types/';
 
 type Props = I18nProps & ApiProps & {
   isCollapsed: boolean,
   onClick: () => void,
   allAccounts?: SubjectInfo,
-  electionStage: Option<ElectionStage>,
   route: Route
 };
 
@@ -33,11 +30,6 @@ interface Tooltip {
   'data-for': string;
   'data-tip-disable'?: boolean;
 }
-
-type Subtitle = {
-  text: string,
-  classes: string[]
-};
 
 class Item extends React.PureComponent<Props> {
   componentWillUpdate () {
@@ -51,9 +43,6 @@ class Item extends React.PureComponent<Props> {
     if (!this.isVisible()) {
       return null;
     }
-
-    const subtitle = this.getSubtitle(name);
-
     const tooltip: Tooltip = {
       'data-for': `nav-${name}`,
       'data-tip': true,
@@ -72,7 +61,6 @@ class Item extends React.PureComponent<Props> {
           <Icon name={icon} />
           <div className='text SidebarItem'>
             <div>{t(`sidebar.${name}`, i18n)}</div>
-            {subtitle && <div className={`SidebarSubtitle ${subtitle.classes.join(' ')}`}>{subtitle.text}</div>}
           </div>
           <ReactTooltip
            delayShow={750}
@@ -87,22 +75,6 @@ class Item extends React.PureComponent<Props> {
         </NavLink>
       </Menu.Item>
     );
-  }
-
-  private getSubtitle (name: string): Subtitle | undefined {
-    const { electionStage: stage } = this.props;
-    if (stage && stage.isSome) {
-      const classes: string[] = [];
-      let text = 'No active election';
-      if (stage.isSome) {
-        const stageValue = stage.value as ElectionStage;
-        const stageName = stageValue.type;
-        text = `${stageName} stage`;
-        classes.push(stageName);
-      }
-      return { text, classes };
-    }
-    return undefined;
   }
 
   private hasApi (endpoint: string): boolean {
