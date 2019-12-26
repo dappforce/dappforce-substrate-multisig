@@ -1,5 +1,4 @@
 #![cfg_attr(not(feature = "std"), no_std)]
-#![cfg_attr(not(feature = "std"), feature(alloc))]
 // `construct_runtime!` does a lot of recursion and requires us to increase the limit to 256.
 #![recursion_limit="256"]
 
@@ -93,8 +92,8 @@ pub mod opaque {
 
 /// This runtime version.
 pub const VERSION: RuntimeVersion = RuntimeVersion {
-	spec_name: create_runtime_str!("multisig-subwallet"),
-	impl_name: create_runtime_str!("multisig-subwallet"),
+	spec_name: create_runtime_str!("dappforce-multisig"),
+	impl_name: create_runtime_str!("dappforce-multisig"),
 	authoring_version: 3,
 	spec_version: 4,
 	impl_version: 4,

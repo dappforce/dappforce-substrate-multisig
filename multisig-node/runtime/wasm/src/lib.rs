@@ -2,4 +2,4 @@
 
 #![cfg_attr(not(feature = "std"), no_std)]
 
-pub use multisig_subwallet_runtime::*;
+pub use df_multisig_runtime::*;
