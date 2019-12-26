@@ -81,3 +81,8 @@ version = '1.0.0'
 
 [build-dependencies]
 vergen = '3'
+
+[build-dependencies.build-script-utils]
+git = 'https://github.com/paritytech/substrate.git'
+package = 'substrate-build-script-utils'
+version = '2.0.0'

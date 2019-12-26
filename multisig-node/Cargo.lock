@@ -591,6 +591,7 @@ dependencies = [
  "parking_lot 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "sr-io 1.0.0 (git+https://github.com/paritytech/substrate.git?branch=v1.0)",
  "substrate-basic-authorship 1.0.0 (git+https://github.com/paritytech/substrate.git?branch=v1.0)",
+ "substrate-build-script-utils 2.0.0 (git+https://github.com/paritytech/substrate.git)",
  "substrate-cli 1.0.0 (git+https://github.com/paritytech/substrate.git?branch=v1.0)",
  "substrate-client 1.0.0 (git+https://github.com/paritytech/substrate.git?branch=v1.0)",
  "substrate-consensus-aura 1.0.0 (git+https://github.com/paritytech/substrate.git?branch=v1.0)",
@@ -3362,6 +3363,11 @@ dependencies = [
 ]
 
 [[package]]
+name = "substrate-build-script-utils"
+version = "2.0.0"
+source = "git+https://github.com/paritytech/substrate.git#c3a4c55cfc3a5d6f236dc184ea76f5b9ebe1eae4"
+
+[[package]]
 name = "substrate-cli"
 version = "1.0.0"
 source = "git+https://github.com/paritytech/substrate.git?branch=v1.0#fc206f3a009b64fc746202e5b4c701bf7e24d1f1"
@@ -5023,6 +5029,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum strum_macros 0.14.0 (registry+https://github.com/rust-lang/crates.io-index)" = "572a2f4e53dd4c3483fd79e5cc10ddd773a3acb1169bbfe8762365e107110579"
 "checksum substrate-basic-authorship 1.0.0 (git+https://github.com/paritytech/substrate.git?branch=v1.0)" = "<none>"
 "checksum substrate-bip39 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "d69ace596e9ca97837cc41f8edcfc4e0a997f227d5fc153d1010b60a0fe9acda"
+"checksum substrate-build-script-utils 2.0.0 (git+https://github.com/paritytech/substrate.git)" = "<none>"
 "checksum substrate-cli 1.0.0 (git+https://github.com/paritytech/substrate.git?branch=v1.0)" = "<none>"
 "checksum substrate-client 1.0.0 (git+https://github.com/paritytech/substrate.git?branch=v1.0)" = "<none>"
 "checksum substrate-client-db 1.0.0 (git+https://github.com/paritytech/substrate.git?branch=v1.0)" = "<none>"
