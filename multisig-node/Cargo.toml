@@ -1,5 +1,5 @@
 [[bin]]
-name = 'dappforce-multisig'
+name = 'dappforce-substrate-multisig'
 path = 'src/main.rs'
 [profile.release]
 panic = 'unwind'
@@ -76,7 +76,7 @@ branch = 'v1.0'
 authors = ['DappForce (dappforce.io)']
 build = 'build.rs'
 edition = '2018'
-name = 'dappforce-multisig'
+name = 'dappforce-substrate-multisig'
 version = '1.0.0'
 
 [build-dependencies]

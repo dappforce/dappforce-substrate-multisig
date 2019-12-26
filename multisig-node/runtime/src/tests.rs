@@ -132,7 +132,7 @@ fn create_wallet_should_fail_too_many_owners() {
 #[test]
 fn create_wallet_should_fail_too_many_confirms_required() {
   with_externalities(&mut test_ext(), || {
-    assert_noop!(_create_wallet(None, None, None, None, Some(10)), MSG_MORE_CONFIRMS_REQUIRED_THAN_OWNERS);
+    assert_noop!(_create_wallet(None, None, None, None, Some(10)), MSG_CONFIRMS_NUMBER_EXCEEDS_OWNERS);
   });
 }
 
