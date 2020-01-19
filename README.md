@@ -1,6 +1,6 @@
 # Substrate Multisig Wallet by [DappForce](https://github.com/dappforce)
 
-Experimental multisig wallet module with web UI for Substrate/Polkadot blockchains.
+⚠️ Experimental ⚠️ multisig wallet module with web UI for Substrate/Polkadot blockchains.
 
 ## Features
 
