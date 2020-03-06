@@ -16,7 +16,7 @@
 - Change wallet parameters (confirms required, max tx value), add/remove owners via on-chain governance.
 - Push and email notifications? This will require a centralized server that will send notifications.
 
-## Substrate version
+## Substrate Version
 
 Currently the mulstisig is implemented for Substrate v1. 
 We are planning to upgrade it to Substrate v2 when it's stable, so it can be used with Kusama Network.
@@ -30,10 +30,15 @@ so chances are that the multisig will fail with TypeScript errors in your fork o
 
 ## Screenshots
 
-### My wallets
+### My Wallets
 
 ![Image of wallets list](screenshots/wallets_list.png)
 
-### Wallet transactions
+### Wallet Transactions
 
 ![Image of txs list](screenshots/txs_list.png)
+
+## License
+
+DappForce Substrate Multisig is [GPL 3.0](./LICENSE) licensed.
+
