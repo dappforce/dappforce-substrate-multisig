@@ -1,15 +1,14 @@
-//! Substrate Node Template CLI library.
-
 #![warn(missing_docs)]
 #![warn(unused_extern_crates)]
 
 mod chain_spec;
+#[macro_use]
 mod service;
 mod cli;
 
-pub use substrate_cli::{VersionInfo, IntoExit, error};
+pub use sc_cli::{VersionInfo, IntoExit, error};
 
-fn run() -> cli::error::Result<()> {
+fn main() -> Result<(), cli::error::Error> {
 	let version = VersionInfo {
 		name: "Substrate Node",
 		commit: env!("VERGEN_SHA_SHORT"),
@@ -19,7 +18,6 @@ fn run() -> cli::error::Result<()> {
 		description: "Multi-signature wallet implementation",
 		support_url: "support.anonymous.an",
 	};
-	cli::run(::std::env::args(), cli::Exit, version)
-}
 
-error_chain::quick_main!(run);
+	cli::run(std::env::args(), cli::Exit, version)
+}
