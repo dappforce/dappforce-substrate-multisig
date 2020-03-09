@@ -19,3 +19,6 @@ multisig-front-end/yarn-debug.log*
 multisig-front-end/yarn-error.log*
 multisig-front-end/!patches/**
 multisig-front-end/packages/df-types/lib
+
+# JetBrains IDEs' configs
+**/.idea

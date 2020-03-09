@@ -1,12 +1,14 @@
-use rstd::prelude::*;
-use support::{decl_module, decl_storage, decl_event, StorageValue, StorageMap, ensure, dispatch::Result, Parameter};
-use support::traits::{Currency, LockableCurrency, ReservableCurrency};
-use parity_codec::{Encode, Decode, Codec};
-use runtime_primitives::traits::{As, Member, SimpleArithmetic, MaybeDebug, MaybeSerializeDebug};
-use rstd::collections::btree_map::BTreeMap;
-// use primitives::{sr25519, crypto::Pair};
-use {timestamp};
-use system::{self, ensure_signed};
+#![cfg_attr(not(feature = "std"), no_std)]
+
+mod functions;
+
+use sp_std::prelude::*;
+use sp_std::collections::btree_map::BTreeMap;
+use codec::{Encode, Decode};
+use frame_support::{decl_module, decl_storage, decl_event, ensure,
+                    traits::{Currency, LockableCurrency, ReservableCurrency}};
+use sp_runtime::RuntimeDebug;
+use system::ensure_signed;
 
 pub const MIN_WALLET_MAX_TX_VALUE: u16 = 1;
 pub const MIN_WALLET_OWNERS: u16 = 2;
@@ -34,52 +36,51 @@ pub const MSG_OVERFLOW_SUBMITTING_TX: &str = "Overflow in Wallet pending tx coun
 pub const MSG_UNDERFLOW_EXECUTING_TX: &str = "Underflow in Wallet pending tx counter when executing tx";
 pub const MSG_OVERFLOW_EXECUTING_TX: &str = "Overflow in Wallet executed tx counter when executing tx";
 
-#[cfg_attr(feature = "std", derive(Debug))]
-#[derive(Clone, Encode, Decode)]
+#[derive(Encode, Decode, Clone, Eq, PartialEq, RuntimeDebug)]
 pub struct Change<T: Trait> {
-	pub account: T::AccountId,
-	block: T::BlockNumber,
-	time: T::Moment,
+  pub account: T::AccountId,
+  block: T::BlockNumber,
+  time: T::Moment,
 }
 
-#[cfg_attr(feature = "std", derive(Debug))]
-#[derive(Clone, Encode, Decode)]
+#[derive(Encode, Decode, Clone, Eq, PartialEq, RuntimeDebug)]
 pub struct Wallet<T: Trait> {
-	pub created: Change<T>,
-	pub id: T::AccountId,
-	pub owners: Vec<T::AccountId>,
-	pub max_tx_value: BalanceOf<T>,
-	pub confirms_required: u16,
+  pub created: Change<T>,
+  pub id: T::AccountId,
+  pub owners: Vec<T::AccountId>,
+  pub max_tx_value: BalanceOf<T>,
+  pub confirms_required: u16,
 
-	pub pending_tx_count: u16,
-	pub executed_tx_count: u64,
+  pub pending_tx_count: u16,
+  pub executed_tx_count: u64,
 }
 
-#[cfg_attr(feature = "std", derive(Debug))]
-#[derive(Clone, Encode, Decode)]
+#[derive(Encode, Decode, Clone, Eq, PartialEq, RuntimeDebug)]
 pub struct Transaction<T: Trait> {
-	pub created: Change<T>,
-	pub id: T::TransactionId,
-	pub destination: T::AccountId,
-	pub value: BalanceOf<T>,
-	pub notes: Vec<u8>,
-	pub confirmed_by: Vec<T::AccountId>,
-	pub executed: bool,
+  pub created: Change<T>,
+  pub id: TransactionId,
+  pub destination: T::AccountId,
+  pub value: BalanceOf<T>,
+  pub notes: Vec<u8>,
+  pub confirmed_by: Vec<T::AccountId>,
+  pub executed: bool,
 }
 
-pub type BalanceOf<T> =
-	<<T as Trait>::Currency as Currency<<T as system::Trait>::AccountId>>::Balance;
+pub type TransactionId = u64;
+pub type BalanceOf<T> = <<T as Trait>::Currency as Currency<<T as system::Trait>::AccountId>>::Balance;
 
-pub trait Trait: system::Trait + timestamp::Trait + MaybeDebug {
-	type Event: From<Event<Self>> + Into<<Self as system::Trait>::Event>;
-	type TransactionId: Parameter + Member + SimpleArithmetic + Codec + Default + Copy + As<usize>
-			+ As<u64> + MaybeSerializeDebug + PartialEq;
-	type Currency: Currency<Self::AccountId> + ReservableCurrency<Self::AccountId>
-			+ LockableCurrency<Self::AccountId, Moment = Self::BlockNumber>;
+/// The pallet's configuration trait.
+pub trait Trait: system::Trait + pallet_timestamp::Trait {
+  /// The overarching event type.
+  type Event: From<Event<Self>> + Into<<Self as system::Trait>::Event>;
+
+  type Currency: Currency<Self::AccountId> + ReservableCurrency<Self::AccountId>
+  + LockableCurrency<Self::AccountId, Moment = Self::BlockNumber>;
 }
 
+// This pallet's storage items.
 decl_storage! {
-	trait Store for Module<T: Trait> as MultisigWalletModule {
+	trait Store for Module<T: Trait> as TemplateModule {
 		MinMultisigWalletMaxTxValue get(min_wallet_max_tx_value): u16 = MIN_WALLET_MAX_TX_VALUE;
 		MinMultisigWalletOwners get(min_wallet_owners): u16 = MIN_WALLET_OWNERS;
 		MaxMultisigWalletOwners get(max_wallet_owners): u16 = MAX_WALLET_OWNERS;
@@ -88,19 +89,22 @@ decl_storage! {
 		WalletById get(wallet_by_id): map T::AccountId => Option<Wallet<T>>;
 		WalletIdsByAccountId get(wallet_ids_by_account_id): map T::AccountId => Vec<T::AccountId>;
 
-		TxById get(tx_by_id): map T::TransactionId => Option<Transaction<T>>;
-		PendingTxIdsByWalletId get(pending_tx_ids_by_wallet_id): map T::AccountId => Vec<T::TransactionId>;
-		ExecutedTxIdsByWalletId get(executed_tx_ids_by_wallet_id): map T::AccountId => Vec<T::TransactionId>;
-    NextTxId get(next_tx_id): T::TransactionId = T::TransactionId::sa(1);
+		TxById get(tx_by_id): map TransactionId => Option<Transaction<T>>;
+		PendingTxIdsByWalletId get(pending_tx_ids_by_wallet_id): map T::AccountId => Vec<TransactionId>;
+		ExecutedTxIdsByWalletId get(executed_tx_ids_by_wallet_id): map T::AccountId => Vec<TransactionId>;
+    NextTxId get(next_tx_id): TransactionId = 1;
 	}
 }
 
+// The pallet's dispatchable functions.
 decl_module! {
 	pub struct Module<T: Trait> for enum Call where origin: T::Origin {
-		fn deposit_event<T>() = default;
+		// Initializing events
+		// this is needed only if you are using events in your pallet
+		fn deposit_event() = default;
 
 		pub fn create_wallet(origin, wallet_id: T::AccountId, owners: Vec<T::AccountId>,
-			max_tx_value: BalanceOf<T>, confirms_required: u16) -> Result
+			max_tx_value: BalanceOf<T>, confirms_required: u16)
 		{
 			let creator = ensure_signed(origin)?;
 			let mut owners_map: BTreeMap<T::AccountId, bool> = BTreeMap::new();
@@ -119,7 +123,7 @@ decl_module! {
 
 			ensure!(confirms_required <= owners_count, MSG_CONFIRMS_NUMBER_EXCEEDS_OWNERS);
 			ensure!(confirms_required > 0, MSG_CANNOT_REQUIRE_ZERO_CONFIRMS);
-			ensure!(max_tx_value >= BalanceOf::<T>::sa(MIN_WALLET_MAX_TX_VALUE as u64), MSG_MAX_TX_VALUE_LOWER_THAN_ALLOWED);
+			ensure!(max_tx_value >= MIN_WALLET_MAX_TX_VALUE.into(), MSG_MAX_TX_VALUE_LOWER_THAN_ALLOWED);
 
 			// let public_key: sr25519::Public = sr25519::Pair::generate().public();
 			// let wallet_id: T::AccountId = public_key.using_encoded(Decode::decode).expect("panic!");
@@ -140,12 +144,10 @@ decl_module! {
 			}
 
 			Self::deposit_event(RawEvent::WalletCreated(creator, wallet_id));
-
-			Ok(())
 		}
 
 		pub fn submit_transaction(origin, wallet_id: T::AccountId, destination: T::AccountId,
-			value: BalanceOf<T>, notes: Vec<u8>) -> Result
+			value: BalanceOf<T>, notes: Vec<u8>)
 		{
 			let sender = ensure_signed(origin)?;
 
@@ -176,18 +178,16 @@ decl_module! {
 			<WalletById<T>>::insert(wallet_id.clone(), wallet);
 			<TxById<T>>::insert(transaction_id, new_transaction);
 			<PendingTxIdsByWalletId<T>>::mutate(wallet_id.clone(), |ids| ids.push(transaction_id));
-			<NextTxId<T>>::mutate(|n| { *n += T::TransactionId::sa(1); });
+			NextTxId::mutate(|n| { *n += 1; });
 
 			Self::deposit_event(RawEvent::TransactionSubmitted(sender, wallet_id, transaction_id));
-
-			Ok(())
 		}
 
-		pub fn confirm_transaction(origin, wallet_id: T::AccountId, tx_id: T::TransactionId) -> Result {
+		pub fn confirm_transaction(origin, wallet_id: T::AccountId, tx_id: TransactionId) {
 			let sender = ensure_signed(origin)?;
 
 			let wallet = Self::wallet_by_id(wallet_id.clone()).ok_or(MSG_WALLET_NOT_FOUND)?;
-			
+
 			let is_wallet_owner = wallet.owners.iter().any(|owner| *owner == sender.clone());
 			ensure!(is_wallet_owner, MSG_NOT_A_WALLET_OWNER);
 
@@ -208,68 +208,16 @@ decl_module! {
 			}
 
 			Self::deposit_event(RawEvent::TransactionSubmitted(sender, wallet_id, tx_id));
-
-			Ok(())
 		}
 	}
 }
 
 decl_event!(
 	pub enum Event<T> where
-		<T as system::Trait>::AccountId,
-		<T as Trait>::TransactionId
+		<T as system::Trait>::AccountId
 	{
 		WalletCreated(AccountId, AccountId),
 		TransactionSubmitted(AccountId, AccountId, TransactionId),
 		TransactionExecuted(AccountId, AccountId, TransactionId),
 	}
 );
-
-impl<T: Trait> Module<T> {
-	fn vec_remove_on<F: PartialEq>(vector: &mut Vec<F>, element: F) {
-    if let Some(index) = vector.iter().position(|x| *x == element) {
-      vector.swap_remove(index);
-    }
-  }
-
-	fn new_change(account: T::AccountId) -> Change<T> {
-    Change {
-      account,
-      block: <system::Module<T>>::block_number(),
-      time: <timestamp::Module<T>>::now(),
-    }
-  }
-
-	fn execute_transaction(executer: T::AccountId, mut wallet: Wallet<T>, mut transaction: Transaction<T>) -> Result {
-		let wallet_id = wallet.id.clone();
-		let tx_id = transaction.id;
-
-		ensure!(transaction.confirmed_by.len() == wallet.confirms_required as usize, MSG_NOT_ENOUGH_CONFIRMS_ON_TX);
-		ensure!(transaction.value <= T::Currency::free_balance(&wallet_id), MSG_FREE_BALANCE_TOO_LOW);
-
-		T::Currency::transfer(&wallet_id, &transaction.destination, transaction.value)?;
-		transaction.executed = true;
-
-		wallet.pending_tx_count = wallet.pending_tx_count.checked_sub(1).ok_or(MSG_UNDERFLOW_EXECUTING_TX)?;
-		wallet.executed_tx_count = wallet.executed_tx_count.checked_add(1).ok_or(MSG_OVERFLOW_EXECUTING_TX)?;
-
-		Self::change_tx_from_pending_to_executed(wallet_id.clone(), tx_id)?;
-
-		<WalletById<T>>::insert(wallet_id.clone(), wallet);
-		<TxById<T>>::insert(tx_id, transaction);
-		Self::deposit_event(RawEvent::TransactionExecuted(executer, wallet_id, tx_id));
-
-		Ok(())
-	}
-
-	fn change_tx_from_pending_to_executed(wallet_id: T::AccountId, tx_id: T::TransactionId) -> Result {
-		ensure!(Self::wallet_by_id(wallet_id.clone()).is_some(), MSG_WALLET_NOT_FOUND);
-		ensure!(Self::tx_by_id(tx_id).is_some(), MSG_TRANSACTION_NOT_FOUND);
-		ensure!(!Self::executed_tx_ids_by_wallet_id(wallet_id.clone()).iter().any(|&x| x == tx_id), MSG_TX_ALREADY_EXECUTED);
-
-		<PendingTxIdsByWalletId<T>>::mutate(wallet_id.clone(), |txs| Self::vec_remove_on(txs, tx_id));
-		<ExecutedTxIdsByWalletId<T>>::mutate(wallet_id.clone(), |ids| ids.push(tx_id));
-
-		Ok(())
-	}
-}

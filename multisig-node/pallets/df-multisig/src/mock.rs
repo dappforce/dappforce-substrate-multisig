@@ -1,6 +1,6 @@
 #![cfg(test)]
 
-pub use super::wallet;
+pub use super::*;
 pub use support::traits::Currency;
 pub use system;
 
