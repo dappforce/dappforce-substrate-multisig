@@ -50,7 +50,7 @@
     "jest": "^24.8.0",
     "lodash": "^4.17.15",
     "markdown-loader": "^5.0.0",
-    "postcss": "^7.0.13",
+    "postcss": "^8.2.10",
     "postcss-clean": "^1.1.0",
     "postcss-flexbugs-fixes": "^4.1.0",
     "postcss-import": "^12.0.0",
